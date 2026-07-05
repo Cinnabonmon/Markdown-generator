@@ -1,50 +1,12 @@
+// Import filesystem library
 const fs = require("fs");
-// utils/generateMarkdown.js (Unsolved Starter)
 
-// TODO: Create helper functions for handling the license section of the README.
-// You will likely need:
-// - A function that returns a license badge based on which license is passed in
-// - A function that returns a license link for the Table of Contents
-// - A function that returns the license section text
-//
-// If there is no license (e.g., the user selects "None"), these helpers should
-// return an empty string so that nothing is displayed in the README for license.
-
-// Example stubs:
-//
-// function renderLicenseBadge(license) {
-//   // TODO: If there is a license, return the badge markdown.
-//   // If "None", return an empty string.
-// }
-//
-// function renderLicenseLink(license) {
-//   // TODO: If there is a license, return the Table of Contents link for License.
-// }
-//
-// function renderLicenseSection(license) {
-//   // TODO: If there is a license, return the License section text.
-// }
-
-// TODO: Complete this function to generate the README markdown string
-// using the data collected from inquirer.
-// The generated README should include sections for:
-//
-// - Title
-// - License badge (if any)
-// - Description
-// - Table of Contents
-// - Installation
-// - Usage
-// - License (if any)
-// - Contributing
-// - Tests
-// - Questions (GitHub + email)
-//
-// Use the acceptance criteria and the professional README guide as a reference.
-
+// Gets license badge link based on the license provided in prompt
 function getLicenseBadge(license) {
-  if (license === "None") return "it worked";
+  // Returns empty string if no license was picked
+  if (license === "None") return "";
 
+  // List of links to license badges
   const licenseBadgeLinks = {
     MIT: "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)",
     "Apache 2.0":
@@ -55,10 +17,13 @@ function getLicenseBadge(license) {
       "[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)",
   };
 
+  // Returns badge based on license given
   return licenseBadgeLinks[license];
 }
 
+// Gets the text from the provided text files in licenses folder
 function getLicensesText(license) {
+  // List of the text files to be chosen
   const licenseFiles = {
     MIT: "./licenses/MIT.txt",
     "Apache 2.0": "./licenses/Apache2.txt",
@@ -66,6 +31,7 @@ function getLicensesText(license) {
     "BSD 3-Clause": "./licenses/BSD3.txt",
   };
 
+  // Returns the contents of the license provide and gives it to the README to be generated
   try {
     const data = fs.readFileSync(licenseFiles[license], "utf-8");
     return data;
@@ -75,6 +41,7 @@ function getLicensesText(license) {
   }
 }
 
+// Main generator for .md files
 function generateMarkdown({
   title,
   email,
@@ -86,9 +53,7 @@ function generateMarkdown({
   usage,
   contributing,
 }) {
-  // TODO: Use template literals to build the README.md content.
-  // Hint: You can call your license helper functions here.
-
+  //Cookie cutter README.md file layout with all the neccessary params provided
   return `# ${title}
 
 ${getLicenseBadge(license)}
@@ -132,11 +97,11 @@ ${getLicensesText(license)}`
 
 ## Questions
 
-Github: ${github}
-Email: ${email}
+- Github: ${github}
+- Email: ${email}
 
 `;
 }
 
-// TODO: Export the generateMarkdown function so index.js can use it.
+// Exports the generateMarkdown function to be used in index.js
 module.exports = generateMarkdown;

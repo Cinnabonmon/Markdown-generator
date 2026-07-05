@@ -1,38 +1,14 @@
-// 02-Challenge — Professional README Generator (Unsolved Starter)
-
-// TODO: Import the required packages:
-// - fs for writing files
-// - inquirer for collecting user input
-// - the generateMarkdown function from ./utils/generateMarkdown
-
+// Imports for libraries
 const fs = require("fs");
 const inquirer = require("inquirer");
 const generateMarkdown = require("./utils/generateMarkdown");
 
-// TODO: Create an array of questions for user input.
-// Each question should collect part of the README content:
-// - GitHub username
-// - Email address
-// - Project title
-// - Project description
-// - License (choose from a list)
-// - Installation command
-// - Test command
-// - Usage information
-// - Contribution guidelines
-//
-// Example shape of a question:
-// {
-//   type: "input",
-//   name: "github",
-//   message: "What is your GitHub username?",
-// }
-
+// List of questions for the prompt
 const questions = [
   {
-    type: "input",
-    name: "github",
-    message: "What is your GitHub username?",
+    type: "input", // Type of prompt style
+    name: "github", // The name of the prompt
+    message: "What is your GitHub username?", // The question that gets displayed
   },
   {
     type: "input",
@@ -77,10 +53,7 @@ const questions = [
   },
 ];
 
-// TODO: Create a function to write the README file.
-// It should take a file name and the data to write.
-// Use fs.writeFile or fs.writeFileSync inside this function.
-
+// Makes the README.md file and catches errors
 function writeToFile(fileName, data) {
   fs.writeFile(fileName, data, (err) =>
     err
@@ -89,16 +62,14 @@ function writeToFile(fileName, data) {
   );
 }
 
-// TODO: Create a function to initialize the app.
-// Inside it:
-// 1. Prompt the user with inquirer.prompt(questions)
-// 2.
+// Initialize inquirer to prompt the user for their answers
 function init() {
+  // Grabs the inquirer library and prompts the user with the set of questions above
   inquirer.prompt(questions).then((answers) => {
-    console.log(answers);
     const MarkDownData = generateMarkdown(answers);
     writeToFile("README.md", MarkDownData);
   });
 }
 
+// Call initializer function to the terminal
 init();
