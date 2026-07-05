@@ -99,11 +99,11 @@ ${description}
 
 <!-- TODO: Add Table of Contents, Installation, Usage, License, Contributing, Tests, and Questions sections -->
 ## Table of Contents
-- [Installation](installation)
+- [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](contributing)
-- [Tests](test)
-- ${license === "None" ? "" : "[License](license)"}
+- [Contributing](#contributing)
+- [Tests](#test)
+${!license === "None" ? "- [License](#license)" : ""}
 - [Questions](#questions)
 
 ## Installation
@@ -122,14 +122,18 @@ ${contributing}
 
 ${test}
 
-## License
+${
+  license !== "None"
+    ? `## License
 
-${getLicensesText(license)}
+${getLicensesText(license)}`
+    : ""
+}
 
 ## Questions
 
-${github}
-${email}
+Github: ${github}
+Email: ${email}
 
 `;
 }
