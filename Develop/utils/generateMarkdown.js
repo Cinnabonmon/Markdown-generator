@@ -42,33 +42,45 @@ const fs = require("fs");
 //
 // Use the acceptance criteria and the professional README guide as a reference.
 
-function getLiceneBadge(license) {}
+function getLicenseBadge(license) {
+  if (license === "None") return "it worked";
+
+  const licenseBadgeLinks = {
+    MIT: "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)",
+    "Apache 2.0":
+      "[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)",
+    "GPL 3.0":
+      "[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)",
+    "BSD 3-Clause":
+      "[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)",
+  };
+
+  return licenseBadgeLinks[license];
+}
 
 function getLicensesText(license) {
   const licenseFiles = {
-    MIT: "../licenses/MIT.txt",
-    "Apache 2.0": "../licenses/Apache2.txt",
-    "GPL 3.0": "../licenses/GPL3.txt",
-    "BSD 3-Clause": "../licenses/BSD3.txt",
+    MIT: "./licenses/MIT.txt",
+    "Apache 2.0": "./licenses/Apache2.txt",
+    "GPL 3.0": "./licenses/GPL3.txt",
+    "BSD 3-Clause": "./licenses/BSD3.txt",
   };
 
-  fs.readFile(licenseFiles[license], "utf-8", (err, data) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    console.log(data);
-  });
+  try {
+    const data = fs.readFileSync(licenseFiles[license], "utf-8");
+    return data;
+  } catch (err) {
+    console.log(err);
+    return "";
+  }
 }
-
-getLicensesText("MIT");
 
 function generateMarkdown({
   title,
   email,
   github,
   description,
-  licesnse,
+  license,
   installation,
   test,
   usage,
@@ -79,13 +91,45 @@ function generateMarkdown({
 
   return `# ${title}
 
-<!-- TODO: Add license badge here -->
+${getLicenseBadge(license)}
 
 ## Description
 
-${data.description}
+${description}
 
 <!-- TODO: Add Table of Contents, Installation, Usage, License, Contributing, Tests, and Questions sections -->
+## Table of Contents
+- [Installation](installation)
+- [Usage](#usage)
+- [Contributing](contributing)
+- [Tests](test)
+- ${license === "None" ? "" : "[License](license)"}
+- [Questions](#questions)
+
+## Installation
+
+${installation}
+
+## Usage
+
+${usage}
+
+## Contributing
+
+${contributing}
+
+## Tests
+
+${test}
+
+## License
+
+${getLicensesText(license)}
+
+## Questions
+
+${github}
+${email}
 
 `;
 }
