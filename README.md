@@ -30,6 +30,7 @@ You can fork this and make it better or just do a pull request with a fix or fea
 ## Tests
 
 ```
+cd Development/
 node index.js
 ```
 
